@@ -4,55 +4,33 @@ using UnityEngine;
 
 public class NetworkManager : MonoBehaviour 
 {
-    private RoomInfo[] roomsList;
-
+    public RoomInfo[] roomsList;
+    private int number =1;
     public GameObject ourSnakeHead;
-    public string _gameVersion;
+    const string _gameVersion = "v0.0.1";
 
 	void Start () 
 	{
-        ourSnakeHead.SetActive(false);
         PhotonNetwork.ConnectUsingSettings(_gameVersion);
+        Debug.Log("start");
 	}
 
-    void OnGUI()
+    void OnJoinedLobby()
     {
-        if(!PhotonNetwork.connected)
-        {
-            GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
-        }
-        else if(PhotonNetwork.room == null)
-        {
-            if(GUI.Button(new Rect(100,100,250,100), "Start Server"))
-            {
-                PhotonNetwork.CreateRoom("GirlzCamp", new RoomOptions() { MaxPlayers = 2 }, null);
-            }
-            if(roomsList != null)
-            {
-                for(int i =0; i < roomsList.Length; i++)
-                {
-                    if(GUI.Button(new Rect(100,250 +(110*i),250,100),"Join this room"))
-                    {
-                        PhotonNetwork.JoinRoom(roomsList[i].Name);
-                    }
-                }
-            }
-        }
-    }
-
-    void Update () 
-	{
-		
-	}
-
-    void OnReceivedRoomListUpdate()
-    {
-        roomsList = PhotonNetwork.GetRoomList();
+        Debug.Log("joined lobby");
+        RoomOptions roomOptions = new RoomOptions() { IsVisible = false, MaxPlayers = 2 };
+        PhotonNetwork.JoinOrCreateRoom("GirlzCamp", roomOptions, TypedLobby.Default);
     }
 
     void OnJoinedRoom()
     {
+        Debug.Log("joined room");
         //connected
-        ourSnakeHead.SetActive(true);
+        if (PhotonNetwork.countOfPlayersInRooms == 1)
+        {
+            number = 2;
+        }
+        PhotonNetwork.Instantiate(ourSnakeHead.transform.name, new Vector2(0, PhotonNetwork.playerList.Length*2), Quaternion.identity, 0);
+        
     }
 }

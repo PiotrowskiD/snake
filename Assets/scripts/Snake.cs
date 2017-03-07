@@ -7,9 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class Snake : Photon.MonoBehaviour 
 {
-   
-
-    public bool start = false;
+    
+    private bool start;
     public Transform borderTop;
     public Transform borderBottom;
     public Transform borderLeft;
@@ -20,29 +19,43 @@ public class Snake : Photon.MonoBehaviour
     public Text loseText;
 
     private int score = 0;
-    Vector2 direction = Vector2.right;
+    public Vector2 direction = Vector2.right;
+    public Vector2 serverDirection = Vector2.zero;
     Vector2 lastDirection = Vector2.right;
 
     List<Transform> tail = new List<Transform>();
-
+    
 
     bool ate = false;
 
     void Awake()
     {
-        photonView.RPC("ChangeMyName", PhotonTargets.AllBuffered, PhotonNetwork.playerList.Length.ToString());
+       photonView.RPC("ChangeMyName", PhotonTargets.AllBuffered, PhotonNetwork.playerList.Length.ToString());
+    }
+    [PunRPC]
+    void ChangeMyName(string myNewName)
+    {
+        
+        gameObject.transform.name = myNewName;
     }
 
     void Start () 
 	{
-
-
-        InvokeRepeating("Move", 0.05f, 0.05f);	
+        borderTop = GameObject.FindGameObjectWithTag("top").transform;
+        borderBottom = GameObject.FindGameObjectWithTag("bottom").transform;
+        borderLeft = GameObject.FindGameObjectWithTag("left").transform;
+        borderRight = GameObject.FindGameObjectWithTag("right").transform;
+        scoreText = GameObject.Find("Score").GetComponent<Text>();
+        loseText = GameObject.Find("LoseText").GetComponent<Text>();
+        Awake();
+        start = false;
+        Debug.Log("start");
+        InvokeRepeating("Move", 0.5f, 0.5f);	
 	}
 	
 	void Update () 
 	{
-        if(this.isActiveAndEnabled)
+        if(PhotonNetwork.playerList.Length == 2)
         {
             start = true;
         }
@@ -76,12 +89,16 @@ public class Snake : Photon.MonoBehaviour
 
     void Move()
     {
+        if(serverDirection!=Vector2.zero)
+        {
+            direction = serverDirection;
+        }
         if(start)
         {
             Vector2 currentHeadPosition = transform.position;
             transform.Translate(direction);
             lastDirection = direction;
-
+            
             if (ate)
             {
                 GameObject prefab = (GameObject)Instantiate(tailPrefab, currentHeadPosition, Quaternion.identity);
@@ -112,8 +129,8 @@ public class Snake : Photon.MonoBehaviour
         }
         else
         {
-            loseText.text = "You lost, press r to restart";
-            Time.timeScale = 0;
+            //loseText.text = "You lost, press r to restart";
+            //Time.timeScale = 0;
         }
     }
 
