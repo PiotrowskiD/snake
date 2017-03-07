@@ -5,9 +5,11 @@ using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class Snake : MonoBehaviour 
+public class Snake : Photon.MonoBehaviour 
 {
+   
 
+    public bool start = false;
     public Transform borderTop;
     public Transform borderBottom;
     public Transform borderLeft;
@@ -26,14 +28,24 @@ public class Snake : MonoBehaviour
 
     bool ate = false;
 
-   
-	void Start () 
+    void Awake()
+    {
+        photonView.RPC("ChangeMyName", PhotonTargets.AllBuffered, PhotonNetwork.playerList.Length.ToString());
+    }
+
+    void Start () 
 	{
+
+
         InvokeRepeating("Move", 0.05f, 0.05f);	
 	}
 	
 	void Update () 
 	{
+        if(this.isActiveAndEnabled)
+        {
+            start = true;
+        }
         if (Input.GetKey(KeyCode.RightArrow) && lastDirection != Vector2.left)
         {
             direction = Vector2.right;
@@ -64,25 +76,29 @@ public class Snake : MonoBehaviour
 
     void Move()
     {
-        Vector2 currentHeadPosition = transform.position;
-        transform.Translate(direction);
-        lastDirection = direction;
-
-        if(ate)
+        if(start)
         {
-            GameObject prefab = (GameObject)Instantiate(tailPrefab, currentHeadPosition, Quaternion.identity);
+            Vector2 currentHeadPosition = transform.position;
+            transform.Translate(direction);
+            lastDirection = direction;
 
-            tail.Insert(0, prefab.transform);
+            if (ate)
+            {
+                GameObject prefab = (GameObject)Instantiate(tailPrefab, currentHeadPosition, Quaternion.identity);
 
-            ate = false;
+                tail.Insert(0, prefab.transform);
+
+                ate = false;
+            }
+
+            else if (tail.Count > 0)
+            {
+                tail.Last().position = currentHeadPosition;
+                tail.Insert(0, tail.Last());
+                tail.RemoveAt(tail.Count - 1);
+            }
         }
-
-        else if (tail.Count >0)
-        {
-            tail.Last().position = currentHeadPosition;
-            tail.Insert(0, tail.Last());
-            tail.RemoveAt(tail.Count - 1);
-        }
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

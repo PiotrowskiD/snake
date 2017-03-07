@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gc_snake.Plugins", "gc_snake.Plugins.csproj", "{F56C1F76-3034-C1DB-99FA-44B1789157EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gc_snake", "gc_snake.csproj", "{750A37C4-D3B2-E8E0-0DAB-A2D4873FF34B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gc_snake.Editor", "gc_snake.Editor.csproj", "{D6F85EB9-20CA-58D5-64F7-7490F1187ACB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F56C1F76-3034-C1DB-99FA-44B1789157EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F56C1F76-3034-C1DB-99FA-44B1789157EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F56C1F76-3034-C1DB-99FA-44B1789157EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F56C1F76-3034-C1DB-99FA-44B1789157EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{750A37C4-D3B2-E8E0-0DAB-A2D4873FF34B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{750A37C4-D3B2-E8E0-0DAB-A2D4873FF34B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{750A37C4-D3B2-E8E0-0DAB-A2D4873FF34B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{750A37C4-D3B2-E8E0-0DAB-A2D4873FF34B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6F85EB9-20CA-58D5-64F7-7490F1187ACB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6F85EB9-20CA-58D5-64F7-7490F1187ACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6F85EB9-20CA-58D5-64F7-7490F1187ACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6F85EB9-20CA-58D5-64F7-7490F1187ACB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
